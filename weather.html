@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body, html {
+    height: 100%;
+    background-color: Black;
+    color: White;
+    overflow: hidden;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+
+<table style="height: 90%; width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+<tbody>
+<tr style="height: 40%; font-size: 13vw;">
+<td colspan="2" valign="bottom"><div id="city"></div></td>
+</tr>
+<tr style="height: 30%; font-size: 10vw;">
+<td colspan="2"><div id="temp"></div></td>
+</tr>
+<tr style="height: 30%; font-size: 10vw;">
+<td style="width:25%">&nbsp;<img id="icon" width="150"></td>
+<td style="width:75%"><div id="weather"></div></td>
+</tr>
+</tr>
+</tbody>
+</table>
+<script src="moment.min.js"></script>
+<script src="moment-timezone-with-data.min.js"></script>
+<script>
+var date = new Date();
+var now = date.getTime();
+var hour = date.getHours();
+
+var localOffset = date.getTimezoneOffset();
+
+var index = 0;
+var cities = ['Vancouver', 'Toronto', 'San Francisco', 'New York'];
+var offsets = ['America/Vancouver', 'America/Toronto', 'America/Los_Angeles', 'America/New_York'];
+var interval = 5 * 1000;
+var reload_day = interval * cities.length;
+var reload_night = 30 * reload_day;
+
+if (hour >= 20 || hour < 6) {
+	setTimeout('location.reload()', reload_night);
+	getJsonAndToggle();
+} else {
+	setTimeout('window.open("./LGB.html","_self")', reload_day);
+	getJsonAndToggle();
+}
+
+function getJsonAndToggle() {
+	$.getJSON('http://api.openweathermap.org/data/2.5/group?id=6173331,6167865,5391959,5128581&units=metric&appid=b8776ba33204174433ee3582b88b7e7e', toggle);
+}
+
+function toggle(json) {
+
+	var city = cities[index];
+	var temp = '&nbsp;&nbsp;' + (Math.round((`${json.list[index].main.temp}` * 10)) / 10) + '&#8451;&nbsp;&nbsp;&nbsp;' + getDateTime();
+	var icon = 'http://openweathermap.org/img/wn/' + `${json.list[index].weather[0].icon}` + '@2x.png';
+	var weather = `${json.list[index].weather[0].main}`;
+	
+	$("#city").html(city);
+	$("#temp").html(temp);
+	$("#icon").attr("src", icon);
+	$("#weather").html(weather);
+	
+	index = (index + 1) % cities.length;
+	setTimeout(toggle.bind(null, json), interval);
+}
+
+function getDateTime() {
+	return moment().tz(offsets[index]).format('hh:mm A');
+}
+</script>   
+</body>
+</html>
