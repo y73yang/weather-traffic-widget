@@ -10,7 +10,7 @@ A web widget that displays real-time weather, temperature, and local time for se
 
 ## 🛠 Built With
 
-- HTML, CSS, JavaScript  
+- HTML, CSS, JavaScript, jquery  
 - [OpenWeatherMap API](https://openweathermap.org/api) for weather data  
 - [DriverBC](https://www.drivebc.ca/cameras) and [Ministry of Transportation and Transit](https://www.th.gov.bc.ca/ATIS/lgcws) for Lions Gate Bridge Traffic condition
 - [Moment.js](https://momentjs.com/) for timezone handling
