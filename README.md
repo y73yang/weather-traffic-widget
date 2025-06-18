@@ -21,5 +21,5 @@ A web widget that displays real-time weather, temperature, and local time for se
    ```bash
    git clone https://github.com/yourusername/weather-traffic-widget.git
    cd weather-traffic-widget
-2. Use your OpenWeatherMap API key in weather.html.
+2. Replace and use your OpenWeatherMap API key in weather.html.
 3. Open weather.html or LGB.html in your browser.
